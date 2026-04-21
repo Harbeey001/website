@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grace Global Church | Welcome Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        church: {
+                            gold: '#C9A84C',
+                            navy: '#1B2A4A',
+                            cream: '#F5F0E8',
+                            warm: '#8B7355',
+                            light: '#FAF8F5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(27,42,74,0.7) 0%, rgba(27,42,74,0.4) 50%, rgba(27,42,74,0.8) 100%);
+        }
+        .text-shadow {
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .sermon-card:hover .sermon-overlay {
+            opacity: 1;
+        }
+        .sermon-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #C9A84C;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, #C9A84C 0%, #B8953E 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(201,168,76,0.3);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .event-card {
+            transition: all 0.3s ease;
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .verse-decoration::before,
+        .verse-decoration::after {
+            content: '"';
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            color: #C9A84C;
+            opacity: 0.3;
+            line-height: 1;
+        }
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        .ministry-icon {
+            transition: all 0.3s ease;
+        }
+        .ministry-card:hover .ministry-icon {
+            transform: scale(1.1) rotate(5deg);
+            color: #C9A84C;
+        }
+        .live-pulse {
+            animation: pulse-gold 2s infinite;
+        }
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(201,168,76,0); }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-church-light antialiased">
+
+    <!-- Top Bar -->
+    <div class="bg-church-navy text-white py-2 text-sm hidden md:block">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-6">
+                <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-church-gold"></i> 123 Faith Avenue, Global City</span>
+                <span class="flex items-center gap-2"><i class="fas fa-phone text-church-gold"></i> +1 (555) 123-4567</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="#" class="hover:text-church-gold transition-colors"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-church-gold transition-colors"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-church-gold transition-colors"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="hover:text-church-gold transition-colors"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer">
+                    <div class="w-12 h-12 rounded-full bg-church-navy flex items-center justify-center">
+                        <i class="fas fa-cross text-church-gold text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-serif text-2xl font-bold text-church-navy leading-tight">Grace Global</h1>
+                        <p class="text-xs text-church-warm tracking-widest uppercase">Church</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="#home" class="nav-link text-sm font-medium text-gray-700 hover:text-church-navy transition-colors">Home</a>
+                    <a href="#about" class="nav-link text-sm font-medium text-gray-700 hover:text-church-navy transition-colors">About</a>
+                    <a href="#sermons" class="nav-link text-sm font-medium text-gray-700 hover:text-church-navy transition-colors">Sermons</a>
+                    <a href="#ministries" class="nav-link text-sm font-medium text-gray-700 hover:text-church-navy transition-colors">Ministries</a>
+                    <a href="#events" class="nav-link text-sm font-medium text-gray-700 hover:text-church-navy transition-colors">Events</a>
+                    <a href="#give" class="nav-link text-sm font-medium text-gray-700 hover:text-church-navy transition-colors">Give</a>
+                    <a href="#contact" class="nav-link text-sm font-medium text-gray-700 hover:text-church-navy transition-colors">Contact</a>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="hidden lg:flex items-center gap-4">
+                    <button class="flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 text-white text-sm font-semibold live-pulse">
+                        <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                        Live Service
+                    </button>
+                    <button class="btn-gold px-6 py-2.5 rounded-full text-white text-sm font-semibold">
+                        Plan a Visit
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="lg:hidden p-2 text-church-navy">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="lg:hidden hidden bg-white border-t">
+            <div class="px-4 py-6 space-y-4">
+                <a href="#home" class="block text-gray-700 font-medium py-2">Home</a>
+                <a href="#about" class="block text-gray-700 font-medium py-2">About</a>
+                <a href="#sermons" class="block text-gray-700 font-medium py-2">Sermons</a>
+                <a href="#ministries" class="block text-gray-700 font-medium py-2">Ministries</a>
+                <a href="#events" class="block text-gray-700 font-medium py-2">Events</a>
+                <a href="#give" class="block text-gray-700 font-medium py-2">Give</a>
+                <a href="#contact" class="block text-gray-700 font-medium py-2">Contact</a>
+                <button class="w-full btn-gold px-6 py-3 rounded-full text-white font-semibold mt-4">
+                    Plan a Visit
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <img src="https://www.sliderrevolution.com/wp-content/uploads/2021/05/church.jpg" 
+                 alt="Church Worship" 
+                 class="w-full h-full object-cover">
+            <div class="hero-overlay absolute inset-0"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+            <div class="mb-6 inline-block">
+                <span class="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm text-church-gold text-sm font-medium tracking-wider uppercase border border-church-gold/30">
+                    Welcome Home
+                </span>
+            </div>
+            
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 text-shadow leading-tight">
+                A Place to<br>
+                <span class="text-church-gold italic">Belong</span> & <span class="text-church-gold italic">Believe</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Join our global community of faith. Experience powerful worship, transformative teaching, and genuine fellowship every week.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="btn-gold px-8 py-4 rounded-full text-white font-semibold text-lg flex items-center justify-center gap-2">
+                    <i class="fas fa-play-circle"></i>
+                    Watch Live
+                </button>
+                <button class="px-8 py-4 rounded-full border-2 border-white/30 text-white font-semibold text-lg hover:bg-white/10 transition-all backdrop-blur-sm">
+                    Service Times
+                </button>
+            </div>
+
+            <div class="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto text-white/90">
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-serif font-bold text-church-gold">12K+</div>
+                    <div class="text-sm mt-1">Members</div>
+                </div>
+                <div class="text-center border-x border-white/20">
+                    <div class="text-3xl md:text-4xl font-serif font-bold text-church-gold">50+</div>
+                    <div class="text-sm mt-1">Countries</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-serif font-bold text-church-gold">25</div>
+                    <div class="text-sm mt-1">Years</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+            <div class="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2">
+                <div class="w-1.5 h-3 bg-white rounded-full animate-bounce"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Times Banner -->
+    <section class="bg-church-navy py-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-6 text-center text-white">
+                <div class="flex items-center justify-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors">
+                    <div class="w-12 h-12 rounded-full bg-church-gold/20 flex items-center justify-center">
+                        <i class="fas fa-sun text-church-gold text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold">Sunday Morning</div>
+                        <div class="text-white/70 text-sm">9:00 AM</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors">
+                    <div class="w-12 h-12 rounded-full bg-church-gold/20 flex items-center justify-center">
+                        <i class="fas fa-moon text-church-gold text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold">Monday</div>
+                        <div class="text-white/70 text-sm">5:00 PM - Bible Study</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors">
+                    <div class="w-12 h-12 rounded-full bg-church-gold/20 flex items-center justify-center">
+                        <i class="fas fa-globe text-church-gold text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold">Online Service</div>
+                        <div class="text-white/70 text-sm">Live Stream - Every Sunday</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="relative">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://www.sliderrevolution.com/wp-content/uploads/2021/05/Church-Website-Template-Divinity.jpg" 
+                             alt="Church Community" 
+                             class="w-full h-auto object-cover">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 bg-church-gold text-white p-6 rounded-2xl shadow-xl hidden md:block">
+                        <div class="text-4xl font-serif font-bold">100+</div>
+                        <div class="text-sm">Years of Ministry</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <span class="text-church-gold font-semibold tracking-wider uppercase text-sm">About Our Church</span>
+                    <h2 class="font-serif text-4xl md:text-5xl font-bold text-church-navy leading-tight">
+                        A Global Family United in <span class="text-church-gold">Faith</span>
+                    </h2>
+                    <p class="text-gray-600 text-lg leading-relaxed">
+                        Grace Global Church is a vibrant, multicultural community committed to spreading the Gospel worldwide. Founded in 2001, we have grown from a small gathering to a global movement reaching over 50 countries.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed">
+                        Our mission is simple: to love God, love people, and serve the world. We believe in creating an environment where everyone can encounter God's presence, grow in their faith, and discover their purpose.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6 pt-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-church-gold/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-heart text-church-gold"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-church-navy">Love in Action</h4>
+                                <p class="text-sm text-gray-500">Serving our community</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-church-gold/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-book-open text-church-gold"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-church-navy">Bible Centered</h4>
+                                <p class="text-sm text-gray-500">Truth that transforms</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-church-gold/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-users text-church-gold"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-church-navy">Community</h4>
+                                <p class="text-sm text-gray-500">Life together</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-church-gold/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-hands-praying text-church-gold"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-church-navy">Worship</h4>
+                                <p class="text-sm text-gray-500">Encounter God</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="mt-4 px-8 py-3 rounded-full border-2 border-church-navy text-church-navy font-semibold hover:bg-church-navy hover:text-white transition-all">
+                        Our Story
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verse of the Day -->
+    <section class="py-20 bg-church-cream relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-64 h-64 bg-church-gold/5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-church-gold/5 rounded-full translate-x-1/3 translate-y-1/3"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <div class="verse-decoration flex flex-col items-center gap-4">
+                <p class="font-serif text-3xl md:text-4xl text-church-navy italic leading-relaxed">
+                    For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.
+                </p>
+                <div class="text-church-gold font-semibold tracking-widest uppercase text-sm mt-4">John 3:16</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sermons Section -->
+    <section id="sermons" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-church-gold font-semibold tracking-wider uppercase text-sm">Messages</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-church-navy mt-2">Recent Sermons</h2>
+                <p class="text-gray-500 mt-4 max-w-2xl mx-auto">Catch up on our latest messages and grow in your faith journey</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Sermon 1 -->
+                <div class="sermon-card group cursor-pointer rounded-2xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://worshiphousemedia.com/cdn/shop/files/Holy_Forever__Worship_Intro__Ad_1306x632_94ea1c6b-aa17-47d1-879e-c1c970c80a04.jpg?v=1771962480&width=800" 
+                             alt="Sermon" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="sermon-overlay absolute inset-0 bg-church-navy/70 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                <i class="fas fa-play text-white text-2xl ml-1"></i>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 left-4 px-3 py-1 bg-church-gold text-white text-xs font-semibold rounded-full">
+                            Latest
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                            <i class="far fa-calendar"></i> April 20, 2026
+                            <span class="mx-2">|</span>
+                            <i class="far fa-clock"></i> 45 min
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-church-navy mb-2 group-hover:text-church-gold transition-colors">Walking in Faith</h3>
+                        <p class="text-gray-500 text-sm mb-4">Pastor Michael Johnson</p>
+                        <div class="flex items-center justify-between pt-4 border-t">
+                            <span class="text-sm text-gray-400"><i class="fas fa-headphones mr-1"></i> 2.4k views</span>
+                            <button class="text-church-gold text-sm font-semibold hover:underline">Listen Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sermon 2 -->
+                <div class="sermon-card group cursor-pointer rounded-2xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://www.sliderrevolution.com/wp-content/uploads/2021/05/church.jpg" 
+                             alt="Sermon" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="sermon-overlay absolute inset-0 bg-church-navy/70 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                <i class="fas fa-play text-white text-2xl ml-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                            <i class="far fa-calendar"></i> April 13, 2026
+                            <span class="mx-2">|</span>
+                            <i class="far fa-clock"></i> 38 min
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-church-navy mb-2 group-hover:text-church-gold transition-colors">The Power of Grace</h3>
+                        <p class="text-gray-500 text-sm mb-4">Pastor Sarah Williams</p>
+                        <div class="flex items-center justify-between pt-4 border-t">
+                            <span class="text-sm text-gray-400"><i class="fas fa-headphones mr-1"></i> 1.8k views</span>
+                            <button class="text-church-gold text-sm font-semibold hover:underline">Listen Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sermon 3 -->
+                <div class="sermon-card group cursor-pointer rounded-2xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://www.sliderrevolution.com/wp-content/uploads/2021/05/Church-Website-Template-Divinity.jpg" 
+                             alt="Sermon" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="sermon-overlay absolute inset-0 bg-church-navy/70 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                <i class="fas fa-play text-white text-2xl ml-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                            <i class="far fa-calendar"></i> April 6, 2026
+                            <span class="mx-2">|</span>
+                            <i class="far fa-clock"></i> 52 min
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-church-navy mb-2 group-hover:text-church-gold transition-colors">Kingdom Purpose</h3>
+                        <p class="text-gray-500 text-sm mb-4">Bishop David Thompson</p>
+                        <div class="flex items-center justify-between pt-4 border-t">
+                            <span class="text-sm text-gray-400"><i class="fas fa-headphones mr-1"></i> 3.1k views</span>
+                            <button class="text-church-gold text-sm font-semibold hover:underline">Listen Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button class="px-8 py-3 rounded-full border-2 border-church-navy text-church-navy font-semibold hover:bg-church-navy hover:text-white transition-all">
+                    View All Sermons
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ministries Section -->
+    <section id="ministries" class="py-24 bg-church-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-church-gold font-semibold tracking-wider uppercase text-sm">Get Involved</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-church-navy mt-2">Our Ministries</h2>
+                <p class="text-gray-500 mt-4 max-w-2xl mx-auto">There's a place for everyone to serve and grow</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Ministry 1 -->
+                <div class="ministry-card bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-xl transition-all cursor-pointer">
+                    <div class="ministry-icon w-16 h-16 mx-auto rounded-2xl bg-church-navy/5 flex items-center justify-center mb-6 text-church-navy text-2xl">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-church-navy mb-2">Children's Ministry</h3>
+                    <p class="text-gray-500 text-sm mb-4">Nurture young hearts in faith through fun, engaging programs.</p>
+                    <span class="text-church-gold text-sm font-semibold">Learn More →</span>
+                </div>
+
+                <!-- Ministry 2 -->
+                <div class="ministry-card bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-xl transition-all cursor-pointer">
+                    <div class="ministry-icon w-16 h-16 mx-auto rounded-2xl bg-church-navy/5 flex items-center justify-center mb-6 text-church-navy text-2xl">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-church-navy mb-2">Youth Group</h3>
+                    <p class="text-gray-500 text-sm mb-4">Empowering teens to live boldly for Christ in today's world.</p>
+                    <span class="text-church-gold text-sm font-semibold">Learn More →</span>
+                </div>
+
+                <!-- Ministry 3 -->
+                <div class="ministry-card bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-xl transition-all cursor-pointer">
+                    <div class="ministry-icon w-16 h-16 mx-auto rounded-2xl bg-church-navy/5 flex items-center justify-center mb-6 text-church-navy text-2xl">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-church-navy mb-2">Outreach</h3>
+                    <p class="text-gray-500 text-sm mb-4">Serving our local and global community with love and compassion.</p>
+                    <span class="text-church-gold text-sm font-semibold">Learn More →</span>
+                </div>
+
+                <!-- Ministry 4 -->
+                <div class="ministry-card bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-xl transition-all cursor-pointer">
+                    <div class="ministry-icon w-16 h-16 mx-auto rounded-2xl bg-church-navy/5 flex items-center justify-center mb-6 text-church-navy text-2xl">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-church-navy mb-2">Worship Team</h3>
+                    <p class="text-gray-500 text-sm mb-4">Leading our congregation into God's presence through music.</p>
+                    <span class="text-church-gold text-sm font-semibold">Learn More →</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+                <div>
+                    <span class="text-church-gold font-semibold tracking-wider uppercase text-sm">Calendar</span>
+                    <h2 class="font-serif text-4xl md:text-5xl font-bold text-church-navy mt-2">Upcoming Events</h2>
+                </div>
+                <button class="px-6 py-2.5 rounded-full border-2 border-church-navy text-church-navy font-semibold hover:bg-church-navy hover:text-white transition-all">
+                    View Full Calendar
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Event 1 -->
+                <div class="event-card flex flex-col md:flex-row gap-6 bg-church-light rounded-2xl p-6 border border-gray-100">
+                    <div class="md:w-32 flex-shrink-0 bg-church-navy text-white rounded-xl p-4 text-center flex flex-col justify-center">
+                        <div class="text-3xl font-serif font-bold">25</div>
+                        <div class="text-sm uppercase tracking-wider">April</div>
+                    </div>
+                    <div class="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center gap-2 text-church-gold text-sm font-semibold mb-1">
+                                <i class="fas fa-clock"></i> 6:00 PM - 9:00 PM
+                                <span class="text-gray-300">|</span>
+                                <i class="fas fa-map-marker-alt"></i> Main Sanctuary
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold text-church-navy">Youth Night: Worship & Word</h3>
+                            <p class="text-gray-500 mt-1">An evening of powerful worship and relevant teaching for young adults.</p>
+                        </div>
+                        <button class="px-6 py-3 rounded-full bg-church-navy text-white font-semibold hover:bg-church-gold transition-colors whitespace-nowrap">
+                            Register
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="event-card flex flex-col md:flex-row gap-6 bg-church-light rounded-2xl p-6 border border-gray-100">
+                    <div class="md:w-32 flex-shrink-0 bg-church-gold text-white rounded-xl p-4 text-center flex flex-col justify-center">
+                        <div class="text-3xl font-serif font-bold">02</div>
+                        <div class="text-sm uppercase tracking-wider">May</div>
+                    </div>
+                    <div class="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center gap-2 text-church-gold text-sm font-semibold mb-1">
+                                <i class="fas fa-clock"></i> 10:00 AM - 2:00 PM
+                                <span class="text-gray-300">|</span>
+                                <i class="fas fa-map-marker-alt"></i> Community Center
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold text-church-navy">Community Outreach Day</h3>
+                            <p class="text-gray-500 mt-1">Join us as we serve our local community with food, clothing, and prayer.</p>
+                        </div>
+                        <button class="px-6 py-3 rounded-full bg-church-navy text-white font-semibold hover:bg-church-gold transition-colors whitespace-nowrap">
+                            Volunteer
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="event-card flex flex-col md:flex-row gap-6 bg-church-light rounded-2xl p-6 border border-gray-100">
+                    <div class="md:w-32 flex-shrink-0 bg-church-navy text-white rounded-xl p-4 text-center flex flex-col justify-center">
+                        <div class="text-3xl font-serif font-bold">15</div>
+                        <div class="text-sm uppercase tracking-wider">May</div>
+                    </div>
+                    <div class="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center gap-2 text-church-gold text-sm font-semibold mb-1">
+                                <i class="fas fa-clock"></i> 7:00 PM - 9:30 PM
+                                <span class="text-gray-300">|</span>
+                                <i class="fas fa-map-marker-alt"></i> Online
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold text-church-navy">Global Prayer Night</h3>
+                            <p class="text-gray-500 mt-1">A special online gathering for prayer and intercession across all our campuses.</p>
+                        </div>
+                        <button class="px-6 py-3 rounded-full bg-church-navy text-white font-semibold hover:bg-church-gold transition-colors whitespace-nowrap">
+                            Join Online
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Give Section -->
+    <section id="give" class="py-24 bg-church-navy relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <img src="https://www.sliderrevolution.com/wp-content/uploads/2021/05/church.jpg" 
+                 alt="Background" 
+                 class="w-full h-full object-cover">
+        </div>
+        
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <div class="w-16 h-16 mx-auto rounded-full bg-church-gold/20 flex items-center justify-center mb-6">
+                <i class="fas fa-heart text-church-gold text-2xl"></i>
+            </div>
+            <h2 class="font-serif text-4xl md:text-5xl font-bold text-white mb-6">Give Generously</h2>
+            <p class="text-white/70 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+                Your generosity enables us to spread the Gospel, support our community, and build a better future. Every gift makes a difference.
+            </p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 max-w-2xl mx-auto">
+                <button class="py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-church-gold transition-colors">$25</button>
+                <button class="py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-church-gold transition-colors">$50</button>
+                <button class="py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-church-gold transition-colors">$100</button>
+                <button class="py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-church-gold transition-colors">Custom</button>
+            </div>
+            
+            <button class="btn-gold px-10 py-4 rounded-full text-white font-bold text-lg">
+                Give Now
+            </button>
+            
+            <p class="text-white/50 text-sm mt-6">Secure giving. Tax-deductible. Your information is protected.</p>
+        </div>
+    </section>
+
+    <!-- Contact / Visit Section -->
+    <section id="contact" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div>
+                    <span class="text-church-gold font-semibold tracking-wider uppercase text-sm">Visit Us</span>
+                    <h2 class="font-serif text-4xl md:text-5xl font-bold text-church-navy mt-2 mb-6">Plan Your Visit</h2>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        We'd love to meet you! Whether you're new to faith or looking for a church home, you belong here. Fill out the form and we'll help you plan your first visit.
+                    </p>
+                    
+                    <div class="space-y-6 mb-8">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-church-gold/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-church-gold"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-church-navy">Location</h4>
+                                <p class="text-gray-500">123 Faith Avenue, Global City, GC 10001</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-church-gold/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-clock text-church-gold"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-church-navy">Service Times</h4>
+                                <p class="text-gray-500">Sunday: 9:00 AM & 11:00 AM<br>Wednesday: 7:00 PM</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-church-gold/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-envelope text-church-gold"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-church-navy">Email</h4>
+                                <p class="text-gray-500">hello@graceglobal.church</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-church-light rounded-2xl p-8">
+                    <form class="space-y-5">
+                        <div class="grid md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-church-gold focus:ring-2 focus:ring-church-gold/20 outline-none transition-all" placeholder="John">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-church-gold focus:ring-2 focus:ring-church-gold/20 outline-none transition-all" placeholder="Doe">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-church-gold focus:ring-2 focus:ring-church-gold/20 outline-none transition-all" placeholder="john@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                            <input type="tel" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-church-gold focus:ring-2 focus:ring-church-gold/20 outline-none transition-all" placeholder="+1 (555) 000-0000">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">When would you like to visit?</label>
+                            <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-church-gold focus:ring-2 focus:ring-church-gold/20 outline-none transition-all bg-white">
+                                <option>This Sunday</option>
+                                <option>Next Sunday</option>
+                                <option>Wednesday Service</option>
+                                <option>Not sure yet</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full btn-gold py-4 rounded-xl text-white font-bold text-lg">
+                            Plan My Visit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-church-navy text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                            <i class="fas fa-cross text-church-gold"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-xl font-bold">Grace Global</h3>
+                            <p class="text-xs text-white/50">Church</p>
+                        </div>
+                    </div>
+                    <p class="text-white/60 text-sm leading-relaxed">
+                        A global community of believers committed to loving God, loving people, and serving the world.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4 text-church-gold">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-white/60">
+                        <li><a href="#about" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#sermons" class="hover:text-white transition-colors">Sermons</a></li>
+                        <li><a href="#events" class="hover:text-white transition-colors">Events</a></li>
+                        <li><a href="#ministries" class="hover:text-white transition-colors">Ministries</a></li>
+                        <li><a href="#give" class="hover:text-white transition-colors">Give</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4 text-church-gold">Resources</h4>
+                    <ul class="space-y-2 text-sm text-white/60">
+                        <li><a href="#" class="hover:text-white transition-colors">Bible Study</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Prayer Requests</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Devotionals</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Podcast</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4 text-church-gold">Newsletter</h4>
+                    <p class="text-white/60 text-sm mb-4">Stay updated with our latest news and events.</p>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="Your email" class="flex-1 px-4 py-2 rounded-lg bg-white/10 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-church-gold">
+                        <button class="px-4 py-2 rounded-lg bg-church-gold text-white hover:bg-church-gold/80 transition-colors">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-white/40 text-sm"> 2026 Grace Global Church. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:bg-church-gold hover:text-white transition-all">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:bg-church-gold hover:text-white transition-all">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:bg-church-gold hover:text-white transition-all">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:bg-church-gold hover:text-white transition-all">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate sections on scroll
+        gsap.utils.toArray('section').forEach(section => {
+            gsap.from(section.querySelectorAll('h2, h3, p, .ministry-card, .sermon-card, .event-card'), {
+                y: 40,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    once: true
+                }
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('shadow-md');
+            } else {
+                navbar.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body>
+</html>

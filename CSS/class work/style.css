@@ -1,0 +1,10 @@
+body{background-color: white;
+}
+
+.nap{background: #ece8d9;
+display: flex;
+}
+.nav-item {align-content: space-between;
+}
+.nav-item img{align-items: center;
+}
